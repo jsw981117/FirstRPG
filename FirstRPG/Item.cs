@@ -6,10 +6,12 @@
     public int Price { get; private set; }
     public bool IsEquipped { get; set; } = false;
     public bool Purchased { get; set; } = false;
+    public string Type { get; private set; }
 
-    public Item(string name, int attack, int defense, int price)
+    public Item(string name, string type, int attack, int defense, int price)
     {
         Name = name;
+        Type = type;
         Attack = attack;
         Defense = defense;
         Price = price;
@@ -17,6 +19,6 @@
 
     public override string ToString()
     {
-        return $"{Name} | 공격력 {Attack} | 방어력 {Defense} | {(Purchased ? "구매완료" : Price + " G")}";
+        return $"{Name} | {Type} | 공격력 {Attack} | 방어력 {Defense} | {(Purchased ? "구매완료" : Price + " G")}";
     }
 }

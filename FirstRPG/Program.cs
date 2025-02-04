@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 class Program
 {
-    static Character player = new Character("Chad", "전사");
+    static Character player = new Character("정순원", "전사");
     static Shop shop = new Shop();
+    static Inn inn = new Inn();
+    static DungeonManager dungeonManager = new DungeonManager();
 
     static void Main()
     {
@@ -16,6 +19,9 @@ class Program
             Console.WriteLine("1. 상태 보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 상점");
+            Console.WriteLine("4. 던전입장");
+            Console.WriteLine("5. 휴식하기");
+
             Console.Write("\n원하시는 행동을 입력해주세요.\n>>");
 
             string input = Console.ReadLine();
@@ -24,6 +30,8 @@ class Program
                 case "1": player.ShowStatus(); break;
                 case "2": player.ManageInventory(); break;
                 case "3": shop.OpenShop(player); break;
+                case "4": dungeonManager.EnterDungeon(player); break;
+                case "5": inn.EnterInn(player); break;
                 default: Console.WriteLine("잘못된 입력입니다."); Console.ReadLine(); break;
             }
         }

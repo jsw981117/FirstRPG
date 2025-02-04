@@ -6,8 +6,11 @@
     public int BaseAttack { get; private set; } = 10;
     public int BaseDefense { get; private set; } = 5;
     public int Health { get; private set; } = 100;
-    public int Gold { get; set; } = 1500;
+    public int Gold { get; set; } = 99900;
+
     public List<Item> Inventory { get; private set; } = new List<Item>();
+    private Item equippedWeapon;
+    private Item equippedArmor;
 
     public Character(string name, string job)
     {
@@ -15,23 +18,16 @@
         Job = job;
     }
 
+    public int Attack => BaseAttack + (equippedWeapon?.Attack ?? 0);
+    public int Defense => BaseDefense + (equippedArmor?.Defense ?? 0);
+
     public void ShowStatus()
     {
-        int equippedAttack = 0, equippedDefense = 0;
-        foreach (var item in Inventory)
-        {
-            if (item.IsEquipped)
-            {
-                equippedAttack += item.Attack;
-                equippedDefense += item.Defense;
-            }
-        }
-
         Console.Clear();
         Console.WriteLine("상태 보기\n");
         Console.WriteLine($"Lv. {Level}  {Name} ({Job})");
-        Console.WriteLine($"공격력 : {BaseAttack + equippedAttack} (+{equippedAttack})");
-        Console.WriteLine($"방어력 : {BaseDefense + equippedDefense} (+{equippedDefense})");
+        Console.WriteLine($"공격력 : {Attack} {(equippedWeapon != null ? $"(+{equippedWeapon.Attack})" : "")}");
+        Console.WriteLine($"방어력 : {Defense} {(equippedArmor != null ? $"(+{equippedArmor.Defense})" : "")}");
         Console.WriteLine($"체 력 : {Health}");
         Console.WriteLine($"Gold : {Gold} G\n");
         Console.WriteLine("0. 나가기");
@@ -40,50 +36,71 @@
 
     public void ManageInventory()
     {
-        while (true)
-        {
-            Console.Clear();
-            Console.WriteLine("인벤토리 - 장착 관리\n");
-            if (Inventory.Count == 0)
-            {
-                Console.WriteLine("보유 중인 아이템이 없습니다.");
-            }
-            else
-            {
-                Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < Inventory.Count; i++)
-                {
-                    Console.WriteLine($"- {i + 1} {(Inventory[i].IsEquipped ? "[E]" : "")} {Inventory[i]}");
-                }
-                Console.WriteLine("\n1. 장착 관리");
-            }
-            Console.WriteLine("0. 나가기");
-            Console.Write("\n원하시는 행동을 입력해주세요.\n>>");
+        Console.Clear();
+        Console.WriteLine("인벤토리 - 장착 관리\n");
 
-            string input = Console.ReadLine();
-            if (input == "0") break;
-            else if (input == "1") ManageEquipment();
-        }
-    }
-
-    private void ManageEquipment()
-    {
-        Console.Write("장착/해제할 아이템 번호를 입력해주세요: ");
-        if (int.TryParse(Console.ReadLine(), out int index) && index >= 1 && index <= Inventory.Count)
+        if (Inventory.Count == 0)
         {
-            Item item = Inventory[index - 1];
-            item.IsEquipped = !item.IsEquipped;
-            Console.WriteLine(item.IsEquipped ? "장착되었습니다." : "장착이 해제되었습니다.");
+            Console.WriteLine("보유 중인 아이템이 없습니다.");
         }
         else
         {
-            Console.WriteLine("잘못된 입력입니다.");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                Console.WriteLine($"- {i + 1} {(Inventory[i].IsEquipped ? "[E]" : "")} {Inventory[i]}");
+            }
+            Console.WriteLine("\n원하는 아이템 번호를 입력하여 장착/해제하세요.");
         }
+        Console.WriteLine("0. 나가기");
+
+        string input = Console.ReadLine();
+        if (int.TryParse(input, out int index) && index >= 1 && index <= Inventory.Count)
+        {
+            EquipItem(Inventory[index - 1]);
+        }
+        else if (input != "0")
+        {
+            Console.WriteLine("잘못된 입력입니다.");
+            Console.ReadLine();
+        }
+    }
+
+    public void EquipItem(Item item)
+    {
+        if (item.Type == "Weapon")
+        {
+            if (equippedWeapon != null)
+            {
+                equippedWeapon.IsEquipped = false;  // 기존 무기 해제
+            }
+            equippedWeapon = item;
+        }
+        else if (item.Type == "Armor")
+        {
+            if (equippedArmor != null)
+            {
+                equippedArmor.IsEquipped = false;  // 기존 방어구 해제
+            }
+            equippedArmor = item;
+        }
+
+        item.IsEquipped = true;
+        Console.WriteLine($"{item.Name}을(를) 장착했습니다.");
         Console.ReadLine();
     }
 
     public void AddItem(Item item)
     {
         Inventory.Add(item);
+    }
+    public void RestoreHealth()
+    {
+        Health = 100;
+    }
+
+    public void SetHealth(int value)
+    {
+        Health = Math.Max(0, value); // 체력이 0 이하로 내려가지 않도록 보호
     }
 }
