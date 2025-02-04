@@ -6,7 +6,8 @@
     public int BaseAttack { get; private set; } = 10;
     public int BaseDefense { get; private set; } = 5;
     public int Health { get; private set; } = 100;
-    public int Gold { get; set; } = 99900;
+    public int Gold { get; set; } = 1500;
+    public int DungeonClearCount { get; private set; } = 0;
 
     public List<Item> Inventory { get; private set; } = new List<Item>();
     private Item equippedWeapon;
@@ -98,9 +99,27 @@
     {
         Health = 100;
     }
-
     public void SetHealth(int value)
     {
         Health = Math.Max(0, value); // 체력이 0 이하로 내려가지 않도록 보호
+    }
+    public void LevelUp()
+    {
+        int requiredClears = Level; // 다음 레벨까지 필요한 클리어 횟수 = 현재 레벨이므로
+        if (DungeonClearCount >= requiredClears)
+        {
+            DungeonClearCount = 0; // 클리어 횟수 초기화
+            Level++;
+            BaseAttack += 1;
+            BaseDefense += 1;
+            Console.WriteLine($"레벨 업! {Level - 1} → {Level}");
+            Console.WriteLine($"공격력 +1, 방어력 +1 증가!");
+        }
+    }
+
+    public void CompleteDungeon()
+    {
+        DungeonClearCount++;
+        LevelUp();
     }
 }

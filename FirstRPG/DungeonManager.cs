@@ -58,6 +58,7 @@
 
             player.SetHealth(player.Health - healthLoss);
             player.Gold += reward;
+            player.CompleteDungeon();
 
             Console.WriteLine("던전 클리어!");
             Console.WriteLine($"축하합니다!! {dungeon.Name}을(를) 클리어하였습니다.\n");
