@@ -40,12 +40,11 @@
         Console.Clear();
         Console.WriteLine($"{dungeon.Name}에 도전합니다...\n");
 
-        Random rand = new Random();
-        int failChance = player.Defense < dungeon.RecommendedDefense ? 40 : 0; // 권장 방어력보다 낮으면 40% 실패 확률
+        int failChance = player.Defense < dungeon.RecommendedDefense ? 40 : 0; // 권장 방어력보다 낮으면 실패 확률 있음
 
-        if (rand.Next(100) < failChance)
+        if (RandomGenerator.Instance.Next(100) < failChance)
         {
-            int healthLoss = (20 + rand.Next(16)) / 2; // 체력 소모 절반
+            int healthLoss = (20 + RandomGenerator.Instance.Next(16)) / 2; // 체력 소모 절반
             player.SetHealth(player.Health - healthLoss);
             Console.WriteLine("던전 실패...\n");
             Console.WriteLine($"체력 {player.Health + healthLoss} -> {player.Health}");
@@ -77,14 +76,12 @@
         int minLoss = 20 + Math.Max(defenseDiff, 0);  // 최소 체력 감소량 조정
         int maxLoss = 35 + Math.Max(defenseDiff, 0);  // 최대 체력 감소량 조정
 
-        Random rand = new Random();
-        return rand.Next(minLoss, maxLoss + 1);
+        return RandomGenerator.Instance.Next(minLoss, maxLoss + 1);
     }
 
     private int CalculateReward(int attack, int baseReward)
     {
-        Random rand = new Random();
-        double bonusMultiplier = 1 + rand.NextDouble() * attack; // 공격력 ~ 공격력 * 2 범위
+        double bonusMultiplier = 1 + RandomGenerator.Instance.NextDouble() * attack; // 공격력 ~ 공격력 * 2 범위
         return (int)(baseReward * bonusMultiplier);
     }
 }
