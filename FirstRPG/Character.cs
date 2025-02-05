@@ -69,7 +69,7 @@
 
     public void EquipItem(Item item)
     {
-        if (item.Type == "Weapon")
+        if (item.Type == ItemType.Weapon)
         {
             if (equippedWeapon != null)
             {
@@ -77,7 +77,7 @@
             }
             equippedWeapon = item;
         }
-        else if (item.Type == "Armor")
+        else if (item.Type == ItemType.Armor)
         {
             if (equippedArmor != null)
             {

@@ -2,12 +2,15 @@
 {
     private List<Item> shopItems = new List<Item>
     {
-        new Item("수련자 갑옷", "Armor", 0, 5, 1000),
-        new Item("무쇠갑옷", "Armor", 0, 9, 1500),
-        new Item("스파르타의 갑옷", "Armor", 0, 15, 3500),
-        new Item("낡은 검", "Weapon", 2, 0, 600),
-        new Item("청동 도끼", "Weapon", 5, 0, 1500),
-        new Item("스파르타의 창", "Weapon", 7, 0, 2000)
+        new Item("수련자 갑옷", ItemType.Armor, 0, 5, 1000),
+        new Item("무쇠갑옷", ItemType.Armor, 0, 9, 1500),
+        new Item("스파르타의 갑옷", ItemType.Armor, 0, 15, 3500),
+        new Item("인형탈", ItemType.Armor, 0, 20, 5500),
+
+        new Item("낡은 검", ItemType.Weapon, 2, 0, 600),
+        new Item("청동 도끼", ItemType.Weapon, 5, 0, 1500),
+        new Item("스파르타의 창", ItemType.Weapon, 7, 0, 2000),
+        new Item("장미칼", ItemType.Weapon, 14, 0, 3000),
     };
 
     public void OpenShop(Character player)
