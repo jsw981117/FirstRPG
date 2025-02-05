@@ -1,6 +1,7 @@
 ﻿class Inn
 {
-    private const int RestCost = 500;
+    // 휴식 화면
+    private const int RestCost = 500; // 휴식 가격(싸다)
 
     public void EnterInn(Character player)
     {
@@ -33,6 +34,7 @@
     {
         if (player.Gold >= RestCost)
         {
+            // 여기서 Gold는 private가 아니어서 그냥 수정되는데 체력은 private여서 따로 메서드를 만들었습니다.
             player.Gold -= RestCost;
             player.RestoreHealth();
             Console.WriteLine("휴식을 완료했습니다. 체력이 회복되었습니다.");

@@ -1,5 +1,6 @@
 ﻿public class RandomGenerator
 {
+    // 랜덤 싱글톤으로 구현하는게 더 확장성 있다해서 수정했습니다.
     private static readonly RandomGenerator instance = new RandomGenerator();
     private readonly Random random;
 

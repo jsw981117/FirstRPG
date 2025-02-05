@@ -11,6 +11,7 @@ class Program
 
     static void Main()
     {
+        // 메인 화면
         while (true)
         {
             Console.Clear();
@@ -27,6 +28,7 @@ class Program
             string input = Console.ReadLine();
             switch (input)
             {
+                // 화면을 이동?해줍니다. Character 정보가 없는 샵이나 던전 등의 경우에는 player를 넣어서 정보를 같이 보내줬습니다.
                 case "1": player.ShowStatus(); break;
                 case "2": player.ManageInventory(); break;
                 case "3": shop.OpenShop(player); break;

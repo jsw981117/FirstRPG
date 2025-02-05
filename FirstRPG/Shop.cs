@@ -1,5 +1,8 @@
 ﻿class Shop
 {
+    // 상점 화면
+
+    // 상점 아이템 목록. List 사용해서 구현했습니다.
     private List<Item> shopItems = new List<Item>
     {
         new Item("수련자 갑옷", ItemType.Armor, 0, 5, 1000),
@@ -49,6 +52,7 @@
             }
             else if (player.Gold >= item.Price)
             {
+                // 아이템을 인벤토리에 넣어주고 골드 계산까지 처리해줍니다.
                 player.Gold -= item.Price;
                 item.Purchased = true;
                 player.AddItem(new Item(item.Name, item.Type, item.Attack, item.Defense, item.Price));
@@ -85,6 +89,7 @@
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < player.Inventory.Count; i++)
             {
+                // 플레이어 인벤토리 정보를 불러와서 목록에 출력해줍니다
                 Item item = player.Inventory[i];
                 int sellPrice = (int)(item.Price * 0.85);
                 Console.WriteLine($"- {i + 1} {(item.IsEquipped ? "[E]" : "")} {item.Name} | 판매가: {sellPrice} G");
@@ -98,6 +103,7 @@
                 Item selectedItem = player.Inventory[index - 1];
                 int sellPrice = (int)(selectedItem.Price * 0.85);
 
+                // 판매할 아이템이 장착 중인 경우에는 장착을 먼저 해제합니다
                 if (selectedItem.IsEquipped)
                 {
                     selectedItem.IsEquipped = false;

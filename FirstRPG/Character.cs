@@ -1,5 +1,6 @@
 ﻿class Character
 {
+    // 캐릭터의 상태 관리
     public string Name { get; private set; }
     public string Job { get; private set; }
     public int Level { get; private set; } = 1;
@@ -19,9 +20,10 @@
         Job = job;
     }
 
-    public int Attack => BaseAttack + (equippedWeapon?.Attack ?? 0);
+    public int Attack => BaseAttack + (equippedWeapon?.Attack ?? 0); // 무기, 방어구 장비 했으면 공격력, 방어력 가져옴 null 이면 0 리턴
     public int Defense => BaseDefense + (equippedArmor?.Defense ?? 0);
 
+    // 여기서 캐릭터 정보를 출력합니다
     public void ShowStatus()
     {
         Console.Clear();
@@ -35,6 +37,7 @@
         Console.ReadLine();
     }
 
+    // 인벤토리도 여기서 관리합니다. 능력치 변경 자체를 Character 클래스에서만 하게 하려고
     public void ManageInventory()
     {
         Console.Clear();
@@ -67,13 +70,14 @@
         }
     }
 
+    // 아이템 장착
     public void EquipItem(Item item)
     {
         if (item.Type == ItemType.Weapon)
         {
             if (equippedWeapon != null)
             {
-                equippedWeapon.IsEquipped = false;  // 기존 무기 해제
+                equippedWeapon.IsEquipped = false; // 기존 무기 해제
             }
             equippedWeapon = item;
         }
@@ -81,7 +85,7 @@
         {
             if (equippedArmor != null)
             {
-                equippedArmor.IsEquipped = false;  // 기존 방어구 해제
+                equippedArmor.IsEquipped = false; // 기존 방어구 해제
             }
             equippedArmor = item;
         }
@@ -95,13 +99,13 @@
     {
         Inventory.Add(item);
     }
-    public void RestoreHealth()
+    public void RestoreHealth() // Inn 클래스에서 Health를 건드릴 수가 없어서 회복 메서드가 필요했습니다
     {
         Health = 100;
     }
     public void SetHealth(int value)
     {
-        Health = Math.Max(0, value); // 체력이 0 이하로 내려가지 않도록 보호
+        Health = Math.Max(0, value); // 체력이 0 이하로 내려가지 않도록. 게임 오버를 구현 못했음
     }
     public void LevelUp()
     {
@@ -109,8 +113,8 @@
         if (DungeonClearCount >= requiredClears)
         {
             DungeonClearCount = 0; // 클리어 횟수 초기화
-            Level++;
-            BaseAttack += 1;
+            Level++; // 렙 증가
+            BaseAttack += 1; // 0.5 증가여야 하는데 처음에 int로 설정해둬서 못고쳤습니다;;
             BaseDefense += 1;
             Console.WriteLine($"레벨 업! {Level - 1} → {Level}");
             Console.WriteLine($"공격력 +1, 방어력 +1 증가!");
